@@ -126,17 +126,16 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[arguments[0]]()
 
         # init update function
-        if arguments[1]:
-            for arg in arguments[1:]:
-                key = arg.split('=')[0]
-                val = arg.split('=')[1].replace('_', ' ')
-                if val[0] != '\"' and '.' in val:
-                    val = float(val)
-                elif val[0] != '\"':
-                    val = int(val)
-                else:
-                    val = shlex.split(val)[0]
-                setattr(new_instance, key, val)
+        for arg in arguments[1:]:
+            key = arg.split('=')[0]
+            val = arg.split('=')[1].replace('_', ' ')
+            if val[0] != '\"' and '.' in val:
+                val = float(val)
+            elif val[0] != '\"':
+                val = int(val)
+            else:
+                val = shlex.split(val)[0]
+            setattr(new_instance, key, val)
         # end update function
         storage.save()
         print(new_instance.id)
