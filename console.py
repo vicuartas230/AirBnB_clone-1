@@ -125,7 +125,7 @@ class HBNBCommand(cmd.Cmd):
             return
         new_instance = HBNBCommand.classes[arguments[0]]()
 
-        ###### init update function ######
+        # init update function
         if arguments[1]:
             for arg in arguments[1:]:
                 key = arg.split('=')[0]
@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     val = shlex.split(val)[0]
                 setattr(new_instance, key, val)
-        # end update function ######
+        # end update function
         storage.save()
         print(new_instance.id)
         storage.save()
