@@ -55,4 +55,4 @@ class FileStorage:
             try:
                 del self.__objects[obj.__class__.__name__ + '.' + obj.id]
             except:
-                return
+                pass
