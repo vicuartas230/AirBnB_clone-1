@@ -53,6 +53,6 @@ class FileStorage:
         """ This method deletes object from __objects """
         if obj:
             try:
-                del self.__objects[obj.__class__.__name__ + '.' + obj.id]
+                del FileStorage.__objects[obj.__class__.__name__ + '.' + obj.id]
             except:
                 pass
