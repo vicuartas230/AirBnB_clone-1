@@ -2,6 +2,7 @@
 """ This script defines a class test_console """
 import unittest
 from console import HBNBCommand
+import pep8
 
 
 class test_console(unittest.TestCase):
@@ -17,3 +18,13 @@ price_by_night=300 latitude=37.773972 longitude=-122.431297')
     def create(self):
         """ create an instance of the HBNBCommand class """
         return HBNBCommand()
+
+    def test_console_pep8(self):
+        """Check pep8 on console"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(["./console.py"])
+        self.assertEqual(result.total_errors, 0)
+
+    def test_prompt(self):
+        """Test prompt """
+        self.assertEqual("(hbnb) ", HBNBCommand.prompt)
