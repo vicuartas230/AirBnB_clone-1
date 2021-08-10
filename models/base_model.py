@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String
+import os
 
 
 Base = declarative_base()
@@ -13,8 +14,8 @@ class BaseModel:
     """A base class for all hbnb models"""
 
     id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(datetime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(datetime, nullable=False, default=datetime.utcnow())
+    # created_at = Column(datetime, nullable=False, default=datetime.utcnow)
+    # updated_at = Column(datetime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -24,16 +25,13 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
-            #create State 'name': "California" => self.name = "California"
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             del kwargs['__class__']
-
-            """ for key, val in kwargs.items():
-                    setattr(self, key, val) """
-
+            for key, value in kwargs.items():
+                setattr(self, key, value)
             self.__dict__.update(kwargs)
 
     def __str__(self):
@@ -56,7 +54,7 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if dictionary['_sa_instance_state']:
+        if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
         return dictionary
 
