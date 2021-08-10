@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String
 import os
+import models
 
 
 Base = declarative_base()
@@ -19,20 +20,20 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        if not kwargs:
-            from models import storage
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-        else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-            self.__dict__.update(kwargs)
+        from models import storage
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+
+        if "created_at" in kwargs:
+            kwargs["created_at"] = datetime.strptime(
+                kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
+        if "updated_at" in kwargs:
+            kwargs["updated_at"] = datetime.strptime(
+                kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+        for key, val in kwargs.items():
+            if "__class__" not in key:
+                setattr(self, key, val)
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -60,4 +61,4 @@ class BaseModel:
 
     def delete(self):
         """ This method deletes the current instance from the storage """
-        del self
+        models.storage.delete(self)
