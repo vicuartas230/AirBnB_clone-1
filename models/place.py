@@ -44,4 +44,5 @@ class Place(BaseModel, Base):
         def amenities(self, instance=None):
             """ Setter amenities """
             if isinstance(instance, Amenity):
-                self.amenity_ids.append(instance.id)
+                if instance.place_amenity.place_id == self.id:
+                    self.amenity_ids.append(instance.id)
