@@ -1,15 +1,23 @@
 #!/usr/bin/python3
 """ This script defines a class DBStorage """
+from models import base_model
 from models.base_model import Base
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import environ
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.amenity import Amenity
+from models.review import Review
 
 
 class DBStorage():
     """ This class defines attributes and methods """
     __engine = None
     __session = None
+    clases_objects = [User, State, City, Amenity, Place, Review]
 
     def __init__(self):
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}\
@@ -20,10 +28,17 @@ class DBStorage():
 
     def all(self, cls=None):
         """ This method returns all objects depending of the class name """
+        result = {}
+
         if cls:
-            return self.__session.query(cls).all()
+            for item in self.__session.query(cls).all():
+                result[item.__class__.__name__ + '.' + item.id] = item
         else:
-            return self.__session.query().all()
+            for clase_in in self.clases_objects:
+                for item in self.__session.query(clase_in).all():
+                    result[item.__class__.__name__ + '.' + item.id] = item
+
+        return result
 
     def new(self, obj):
         """ This method adds the object to the current database session """
