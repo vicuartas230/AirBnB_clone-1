@@ -4,6 +4,7 @@ import cmd
 import sys
 import shlex
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 from models.user import User
 from models.place import Place
@@ -137,6 +138,7 @@ class HBNBCommand(cmd.Cmd):
                 val = shlex.split(val)[0]
             setattr(new_instance, key, val)
         # end update function
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -215,18 +217,34 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
+        # args = shlex.split(args)
+        # storage.reload()
+        if isinstance(storage, FileStorage):
+            if args:
+                # remove possible trailing args
+                args = args.split(' ')[0]
+                if args not in HBNBCommand.classes:
+                    print("** class doesn't exist **")
+                    return
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
+            else:
+                for k, v in storage._FileStorage__objects.items():
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
+            try:
+                if args:
+                    obj = storage.all(eval(args))
+                    for v in obj.values():
+                        print_list.append(str(v))
+                else:
+                    obj = storage.all()
+                    for v in obj.values():
+                        print_list.append(str(v))
+            except:
+                print("** class doesn't exist **")
+                return
 
         print(print_list)
 
