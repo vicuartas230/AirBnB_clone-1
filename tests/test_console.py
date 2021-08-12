@@ -22,7 +22,7 @@ class test_console(unittest.TestCase):
     def test_console_pep8(self):
         """Check pep8 on console"""
         pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(["./console.py"])
+        result = pep8style.check_files(["console.py"])
         self.assertEqual(result.total_errors, 0)
 
     def test_prompt(self):
