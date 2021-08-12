@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ This script defines a class test_console """
+import console
 import unittest
 from console import HBNBCommand
 import pep8
@@ -28,3 +29,8 @@ class test_console(unittest.TestCase):
     def test_prompt(self):
         """Test prompt """
         self.assertEqual("(hbnb) ", HBNBCommand.prompt)
+
+    def test_console_module_docstring(self):
+        """Test for the console.py module docstr"""
+        self.assertIsNot(console.__doc__, None)
+        self.assertTrue(len(console.__doc__) >= 1)
