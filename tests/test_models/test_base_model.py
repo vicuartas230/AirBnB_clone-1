@@ -1,99 +1,57 @@
 #!/usr/bin/python3
 """ """
-from models.base_model import BaseModel
+from models import base_model
+from os import environ
+import models
+import pep8
 import unittest
-import datetime
-from uuid import UUID
-import json
-import os
+
+BaseModel = base_model.BaseModel
+storage_type = environ["HBNB_TYPE_STORAGE"]
 
 
 class test_basemodel(unittest.TestCase):
-    """ """
-
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
-
-    def setUp(self):
-        """ """
-        pass
-
-    def tearDown(self):
-        try:
-            os.remove('file.json')
-        except:
-            pass
-
-    def test_default(self):
-        """ """
-        i = self.value()
-        self.assertEqual(type(i), self.value)
-
-    def test_kwargs(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        new = BaseModel(**copy)
-        self.assertFalse(new is i)
-
-    def test_kwargs_int(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        copy.update({1: 2})
-        with self.assertRaises(TypeError):
-            new = BaseModel(**copy)
-
-    def test_save(self):
-        """ Testing save """
-        i = self.value()
-        i.save()
-        key = self.name + "." + i.id
-        with open('file.json', 'r') as f:
-            j = json.load(f)
-            self.assertEqual(j[key], i.to_dict())
+    """ test Base Model """
 
     def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
+        """ Test the str method """
+        instanc = BaseModel()
+        string = "[BaseModel] ({}) {}".format(instanc.id, instanc.__dict__)
+        self.assertEqual(string, str(instanc))
 
-    def test_todict(self):
-        """ """
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
+    def test_to_dict_values(self):
+        """ Test values in dict return from to_dict """
+        t_format = "%Y-%m-%dT%H:%M:%S.%f"
+        bm = BaseModel()
+        new_d = bm.to_dict()
+        self.assertEqual(new_d["__class__"], "BaseModel")
+        self.assertEqual(type(new_d["created_at"]), str)
+        self.assertEqual(type(new_d["updated_at"]), str)
+        self.assertEqual(new_d["created_at"], bm.created_at.strftime(t_format))
+        self.assertEqual(new_d["updated_at"], bm.updated_at.strftime(t_format))
 
-    def test_kwargs_none(self):
-        """ """
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
 
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+class TestBaseDocs(unittest.TestCase):
+    """ Test BaseModel documentation and pep8 """
 
-    def test_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
+    def test_pep8_base(self):
+        """ Test models/base_model.py PEP8 """
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['models/base_model.py'])
+        self.assertEqual(result.total_errors, 0)
 
-    def test_created_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime.datetime)
+    def test_pep8_test_base(self):
+        """ Test tests/test_models/test_base_model.py PEP8 """
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['tests/test_models/test_base_model.py'])
+        self.assertEqual(result.total_errors, 0)
 
-    def test_updated_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime.datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
+    def test_docstring_base_module(self):
+        """ Test base_model.py module docstring """
+        self.assertIsNot(BaseModel.__doc__, None)
+        self.assertTrue(len(BaseModel.__doc__) >= 1)
+
+    def test_docstring_base_class(self):
+        """ Test base_model class docstring """
+        self.assertIsNot(BaseModel.__doc__, None)
+        self.assertTrue(len(BaseModel.__doc__) >= 1)
