@@ -46,16 +46,16 @@ class test_db_storage(unittest.TestCase):
         temp = storage.all()
         self.assertIsInstance(temp, dict)
 
-    @unittest.skipIf(storage_type != 'db', "no testing db storage")
-    def test_reload(self):
-        """ Storage file is successfully loaded to __objects """
-        new = State("Antioquia")
-        storage.new(new)
-        storage.save()
-        storage.reload()
-        for obj in storage.all().values():
-            loaded = obj
-        self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+    # @unittest.skipIf(storage_type != 'db', "no testing db storage")
+    # def test_reload(self):
+    #     """ Storage file is successfully loaded to __objects """
+    #     new = State("Antioquia")
+    #     storage.new(new)
+    #     storage.save()
+    #     storage.reload()
+    #     for obj in storage.all().values():
+    #         loaded = obj
+    #     self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
     @unittest.skipIf(storage_type != 'db', "no testing db storage")
     def test_reload_from_nonexistent(self):
