@@ -5,6 +5,8 @@ import unittest
 from console import HBNBCommand
 import pep8
 
+HBNBCommand = console.HBNBCommand
+
 
 class test_console(unittest.TestCase):
     """ This class defines all test for the console """
