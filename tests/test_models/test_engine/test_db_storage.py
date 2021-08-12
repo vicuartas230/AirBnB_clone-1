@@ -3,7 +3,12 @@
 import unittest
 from models.base_model import BaseModel
 from models import storage
+import models
 import os
+import pep8
+from os import environ
+
+storage_type = environ("HBNB_TYPE_STORAGE")
 
 
 class test_db_storage(unittest.TestCase):
@@ -106,3 +111,36 @@ class test_db_storage(unittest.TestCase):
     #     from models.engine.file_storage import FileStorage
     #     print(type(storage))
     #     self.assertEqual(type(storage), FileStorage)
+
+    def test_pep8_db_storage(self):
+        """ Test models/engine/db_storage.py PEP8 """
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['models/engine/db_storage.py'])
+        self.assertEqual(result.total_errors, 0)
+
+    def test_pep8_test_db_storage(self):
+        """ Test tests/test_models/test_db_storage.py PEP8 """
+        pep8s = pep8.StyleGuide(quiet=True)
+        result = pep8s.check_files(['tests/test_models/test_engine/\
+        test_db_storage.py'])
+        self.assertEqual(result.total_errors, 0)
+
+
+class TestFileStorage(unittest.TestCase):
+    """ Test FileStorage class """
+    @unittest.skipIf(storage_type != 'db', "no testing db storage")
+    def test_all_returns_dict(self):
+        """ Test returns a dictionaty """
+        self.assertIs(type(models.storage.all()), dict)
+
+    @unittest.skipIf(storage_type != 'db', "no testing db storage")
+    def test_all_no_class(self):
+        """ Test returns all rows when no class is passed """
+
+    @unittest.skipIf(storage_type != 'db', "no testing db storage")
+    def test_new(self):
+        """ Test new adds an object to the database """
+
+    @unittest.skipIf(storage_type != 'db', "no testing db storage")
+    def test_save(self):
+        """ Test save properly saves objects to file.json """
