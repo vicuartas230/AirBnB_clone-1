@@ -3,11 +3,13 @@
 import unittest
 from models.base_model import BaseModel
 from models import storage
+from models.engine import db_storage
 import models
 import os
 import pep8
 from os import environ
 
+DBStorage = db_storage.DBStorage
 storage_type = environ("HBNB_TYPE_STORAGE")
 
 
@@ -124,6 +126,11 @@ class test_db_storage(unittest.TestCase):
         result = pep8s.check_files(['tests/test_models/test_engine/\
         test_db_storage.py'])
         self.assertEqual(result.total_errors, 0)
+
+    def test_db_storage_class_docstring(self):
+        """ Test the DBStorage class docstring """
+        self.assertIsNot(DBStorage.__doc__, None)
+        self.assertTrue(len(DBStorage.__doc__) >= 1)
 
 
 class TestFileStorage(unittest.TestCase):
