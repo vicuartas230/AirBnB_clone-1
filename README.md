@@ -1,4 +1,3 @@
-J
 <h1 align="center">
 	<img src="https://www.tabbykatz.com/hbnb.png">
 	AirBnB_clone
