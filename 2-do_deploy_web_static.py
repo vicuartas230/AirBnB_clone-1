@@ -2,6 +2,7 @@
 """ This script defines a function do_deploy """
 from fabric.api import put, run, env, local
 from os.path import isfile
+from datetime import datetime
 
 
 env.hosts = [
@@ -13,6 +14,8 @@ env.user = "ubuntu"
 
 
 def do_pack():
+    """ This function generates a .tgz archive from the
+        contents of the web_static folder """
     date = datetime.now().strftime("%Y%m%d%H%M%S")
     name = 'web_static_' + date + '.tgz'
     local('mkdir -p versions/')
