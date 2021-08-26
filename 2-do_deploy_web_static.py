@@ -19,8 +19,10 @@ def do_pack():
     date = datetime.now().strftime("%Y%m%d%H%M%S")
     name = 'web_static_' + date + '.tgz'
     local('mkdir -p versions/')
-    local('tar -zcvf versions/{} web_static/'.format(name))
-    return 'versions/' + 'name'
+    descompress = local('tar -zcvf versions/{} web_static'.format(name))
+    if descompress.failed:
+        return None
+    return 'versions/' + name
 
 
 def do_deploy(archive_path):
@@ -28,7 +30,6 @@ def do_deploy(archive_path):
     name_file = archive_path.split('/')[1][:-4]
     if not isfile(archive_path):
         return False
-    print(name_file)
     upload = put(archive_path, "/tmp/{}.tgz".format(name_file))
     if upload.failed:
         return False
