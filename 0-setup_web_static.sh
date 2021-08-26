@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script sets up your web servers for the deployment of web_static.
-if [[ ! which nginx /dev/null 2>&1 ]]
+if ! which nginx /dev/null 2>&1;
 then
     apt-get -y update
     apt-get -y upgrade
