@@ -26,7 +26,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """ This function distributes an archive to your web servers """
+    """ This function distributes an archive to your web servers. """
     name_file = archive_path.split('/')[1][:-4]
     if not isfile(archive_path):
         return False
