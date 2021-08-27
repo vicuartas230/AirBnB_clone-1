@@ -54,7 +54,7 @@ web_static'.format(name_file))
     sym_l_del = run('rm -rf /data/web_static/current')
     if sym_l_del.failed:
         return False
-    symbolic = run('ln -s /data/web_static/releases/{}/ \
+    symbolic = run('ln -f -s /data/web_static/releases/{}/ \
 /data/web_static/current'.format(name_file))
     if symbolic.failed:
         return False
