@@ -30,13 +30,13 @@ def do_deploy(archive_path):
     name_file = archive_path.split('/')[1][:-4]
     if not isfile(archive_path):
         return False
-    upload = put(archive_path, "/tmp/{}.tgz".format(name_file))
+    upload = put(archive_path, "/tmp/")
     if upload.failed:
         return False
     create = run('mkdir -p /data/web_static/releases/{}/'.format(name_file))
     if create.failed:
         return False
-    descompress = run('tar xzf /tmp/{}.tgz -C /data/\
+    descompress = run('tar -xzf /tmp/{}.tgz -C /data/\
 web_static/releases/{}/'.format(name_file, name_file))
     if descompress.failed:
         return False
