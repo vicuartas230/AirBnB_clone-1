@@ -8,10 +8,10 @@ from models.state import State
 app = Flask(__name__)
 
 
-@app.route('/states_list', strict_slashes=False)
-def states_list():
-    """ This function lists of all State objects present in DBStorage """
-    return render_template("7-states_list.html", cons=storage.all(State))
+@app.route('/cities_by_states', strict_slashes=False)
+def cities():
+    """ This function lists City objects linked to the State """
+    return render_template("8-cities_by_states.html", cons=storage.all(State))
 
 
 @app.teardown_appcontext
