@@ -21,15 +21,14 @@ def print_b():
 @app.route('/c/<text>', strict_slashes=False)
 def use_variable(text):
     """ This function prints c whit a variable """
-
-    return f'C {text}'.replace('_', ' ')
+    return 'C {}'.format(text.replace('_', ' '))
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def default_value(text='is cool'):
     """ This function uses a variable with default value. """
-    return f'Python {text}'.replace('_', ' ')
+    return 'Python {}'.format(text.replace('_', ' '))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
