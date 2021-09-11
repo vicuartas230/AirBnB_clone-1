@@ -21,21 +21,20 @@ def print_b():
 @app.route('/c/<text>', strict_slashes=False)
 def use_variable(text):
     """ This function prints c whit a variable """
-
-    return f'C {text}'.replace('_', ' ')
+    return 'C {}'.format(text.replace('_', ' '))
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def default_value(text='is cool'):
     """ This function uses a variable with default value. """
-    return f'Python {text}'.replace('_', ' ')
+    return 'Python {}'.format(text.replace('_', ' '))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """ This function displays n if it is an integer """
-    return f'{n} is a number'
+    return '{} is a number'.format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
