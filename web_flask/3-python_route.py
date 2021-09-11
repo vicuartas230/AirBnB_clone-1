@@ -5,21 +5,25 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def say_hello():
     """ This function says hello """
     return "Hello HBNB!"
+
 
 @app.route('/hbnb', strict_slashes=False)
 def print_b():
     """ This function prints HBNB """
     return "HBNB"
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def use_variable(text):
     """ This function prints c whit a variable """
 
     return f'C {text}'.replace('_', ' ')
+
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)

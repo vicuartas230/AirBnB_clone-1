@@ -5,15 +5,18 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def say_hello():
     """ This function says hello """
     return "Hello HBNB!"
 
+
 @app.route('/hbnb', strict_slashes=False)
 def print_b():
     """ This function prints HBNB """
     return "HBNB"
+
 
 @app.route('/c/<text>', strict_slashes=False)
 def use_variable(text):
@@ -21,11 +24,13 @@ def use_variable(text):
 
     return f'C {text}'.replace('_', ' ')
 
+
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def default_value(text='is cool'):
     """ This function uses a variable with default value. """
     return f'Python {text}'.replace('_', ' ')
+
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):

@@ -5,10 +5,12 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def say_hello():
     """ This function says hello """
     return "Hello HBNB!"
+
 
 @app.route('/hbnb', strict_slashes=False)
 def print_b():
