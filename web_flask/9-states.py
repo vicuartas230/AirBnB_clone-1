@@ -17,11 +17,11 @@ def states():
 @app.route('/states/<id>')
 def states_id(id):
     """ This function lists City objects linked to the state """
-    ids = []
-    for v in storage.all(State).values():
-        ids.append(v.id)
-    return render_template("9-states.html",
-                           cons=storage.all(State), id=id, ids=ids)
+    query = [state for state in storage.all(State).values() if state.id == id]
+    if query:
+        return render_template("9-states.html", cons=query[0], id=id)
+    else:
+        return render_template("9-states.html", cons=None, id=id)
 
 
 @app.teardown_appcontext
